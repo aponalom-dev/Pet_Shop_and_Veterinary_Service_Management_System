@@ -261,6 +261,13 @@ body.specialist-page {
     background: #ffab43;
 }
 
+.appointment-btn.is-disabled,
+.appointment-btn.is-disabled:hover {
+    background: #42516a;
+    color: #c6cfdb;
+    cursor: not-allowed;
+}
+
 .no-doctors {
     grid-column: 1 / -1;
     text-align: center;

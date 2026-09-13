@@ -1,87 +1,189 @@
 <?php
-require_once "includes/session.php";
-?>
+// Front controller: routes requests to their page controllers.
+$page = $_GET['page'] ?? 'home';
+$connect_database = !in_array($page, ['home', 'pet_reviews', 'logout'], true);
+require_once __DIR__ . '/config/config.php';
+require_once __DIR__ . '/helpers/helpers.php';
+require_once __DIR__ . '/controllers/home_controller.php';
+require_once __DIR__ . '/controllers/auth_controller.php';
+require_once __DIR__ . '/controllers/public_controller.php';
 
-<!DOCTYPE html>
-<html lang="en">
+switch ($page) {
+    case 'home':
+        home_controller();
+        break;
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PawCare | Pet Shop and Veterinary Service</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/home.css">
-</head>
+    case 'login':
+        login_controller($conn);
+        break;
 
-<body class="home-page">
+    case 'register':
+        register_controller($conn);
+        break;
 
-    <header class="top-bar">
+    case 'logout':
+        logout_controller();
+        break;
 
-        <div class="top-brand">
-            <span class="brand-icon">🐾</span>
-            <span>PawCare – Pet Shop and Veterinary Service Management System</span>
-        </div>
+    case 'specialist_doctors':
+        specialist_doctors_controller($conn);
+        break;
 
-        <div class="window-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+    case 'doctor_profile':
+        doctor_profile_controller($conn);
+        break;
 
-    </header>
+    case 'pet_reviews':
+        pet_reviews_controller();
+        break;
 
-    <main class="home-container">
+    case 'ajax':
+        require_once __DIR__ . '/controllers/ajax_controller.php';
+        ajax_controller($conn);
+        break;
 
-        <aside class="home-sidebar">
+    case 'appointment_token':
+        appointment_token_controller($conn);
+        break;
 
-            <div class="sidebar-brand">
-                <img src="assets/images/petLogo.jpeg" alt="PawCare Logo" class="sidebar-logo">
+    case 'book_appointment':
+        book_appointment_controller($conn);
+        break;
 
-                <h2>
-                    <span>🐾</span>
-                    PAWCARE
-                </h2>
-            </div>
+    case 'confirm_appointment':
+        confirm_appointment_controller($conn);
+        break;
 
-                <nav class="sidebar-menu">
+    case 'customer/billing':
+        require_once __DIR__ . '/controllers/customer_billing_controller.php';
+        customer_billing_controller($conn);
+        break;
 
-                    <a href="login.php" class="menu-btn">Admin Access</a>
-                    <a href="login.php" class="menu-btn">Customer Portal</a>
-                    <a href="#" class="menu-btn">Pet Reviews</a>
-                    <a href="specialist_doctors.php" class="menu-btn">Specialist Doctors</a>
-                    <a href="delivery/index.php" class="menu-btn">Delivery Man Portal</a>
-                    <a href="#" class="menu-btn license-btn">Pet License</a>
+    case 'customer/change_password':
+        require_once __DIR__ . '/controllers/customer_change_password_controller.php';
+        customer_change_password_controller($conn);
+        break;
 
-                </nav>
+    case 'customer/dashboard':
+        require_once __DIR__ . '/controllers/customer_dashboard_controller.php';
+        customer_dashboard_controller($conn);
+        break;
 
-        </aside>
+    case 'customer/edit_profile':
+        require_once __DIR__ . '/controllers/customer_edit_profile_controller.php';
+        customer_edit_profile_controller($conn);
+        break;
 
-        <section class="home-content">
+    case 'customer/orders':
+        require_once __DIR__ . '/controllers/customer_orders_controller.php';
+        customer_orders_controller($conn);
+        break;
 
-            <div class="welcome-header">
-                <span class="welcome-icon">🐾</span>
+    case 'customer/order_details':
+        require_once __DIR__ . '/controllers/customer_order_details_controller.php';
+        customer_order_details_controller($conn);
+        break;
 
-                <h1>
-                    Welcome to Our Premium
-                    <span>Pet Shop</span>
-                </h1>
-            </div>
+    case 'customer/order_success':
+        require_once __DIR__ . '/controllers/customer_order_success_controller.php';
+        customer_order_success_controller($conn);
+        break;
 
-            <div class="hero-area">
-                <img src="assets/images/PetShopWallpaper.jpg" alt="PawCare Pet Shop" class="hero-image">
-            </div>
+    case 'customer/profile':
+        require_once __DIR__ . '/controllers/customer_profile_controller.php';
+        customer_profile_controller($conn);
+        break;
 
-        </section>
+    case 'admin/customer_reviews':
+        require_once __DIR__ . '/controllers/admin_customer_reviews_controller.php';
+        admin_customer_reviews_controller($conn);
+        break;
 
-    </main>
+    case 'admin/dashboard':
+        require_once __DIR__ . '/controllers/admin_dashboard_controller.php';
+        admin_dashboard_controller($conn);
+        break;
 
-    <footer class="home-footer">
-        🐾 "Pets are not our whole life..." |
-        PawCare © 2026
-    </footer>
+    case 'admin/dashboard_overview':
+        require_once __DIR__ . '/controllers/admin_dashboard_overview_controller.php';
+        admin_dashboard_overview_controller($conn);
+        break;
 
-    <script src="assets/js/main.js"></script>
+    case 'admin/delivery_tracking':
+        require_once __DIR__ . '/controllers/admin_delivery_tracking_controller.php';
+        admin_delivery_tracking_controller($conn);
+        break;
 
-</body>
+    case 'admin/inventory':
+        require_once __DIR__ . '/controllers/admin_inventory_controller.php';
+        admin_inventory_controller($conn);
+        break;
 
-</html>
+    case 'admin/manage_inventory':
+        require_once __DIR__ . '/controllers/admin_manage_inventory_controller.php';
+        admin_manage_inventory_controller($conn);
+        break;
+
+    case 'admin/sales_analytics':
+        require_once __DIR__ . '/controllers/admin_sales_analytics_controller.php';
+        admin_sales_analytics_controller($conn);
+        break;
+
+    case 'doctor/appointments':
+        require_once __DIR__ . '/controllers/doctor_appointments_controller.php';
+        doctor_appointments_controller($conn);
+        break;
+
+    case 'doctor/dashboard':
+        require_once __DIR__ . '/controllers/doctor_dashboard_controller.php';
+        doctor_dashboard_controller($conn);
+        break;
+
+    case 'doctor/login':
+        header("Location: " . route_url("login"));
+        exit;
+
+    case 'doctor/medical_records':
+        require_once __DIR__ . '/controllers/doctor_medical_records_controller.php';
+        doctor_medical_records_controller($conn);
+        break;
+
+    case 'delivery/assigned_orders':
+        require_once __DIR__ . '/controllers/delivery_assigned_orders_controller.php';
+        delivery_assigned_orders_controller($conn);
+        break;
+
+    case 'delivery/dashboard':
+        require_once __DIR__ . '/controllers/delivery_dashboard_controller.php';
+        delivery_dashboard_controller($conn);
+        break;
+
+    case 'delivery/history':
+        require_once __DIR__ . '/controllers/delivery_history_controller.php';
+        delivery_history_controller($conn);
+        break;
+
+    case 'delivery/index':
+        require_once __DIR__ . '/controllers/delivery_index_controller.php';
+        delivery_index_controller($conn);
+        break;
+
+    case 'delivery/login':
+        header("Location: " . route_url("login"));
+        exit;
+
+    case 'delivery/order_details':
+        require_once __DIR__ . '/controllers/delivery_order_details_controller.php';
+        delivery_order_details_controller($conn);
+        break;
+
+    case 'delivery/profile':
+        require_once __DIR__ . '/controllers/delivery_profile_controller.php';
+        delivery_profile_controller($conn);
+        break;
+
+    default:
+        http_response_code(404);
+        home_controller();
+        break;
+}

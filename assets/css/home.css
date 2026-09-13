@@ -118,6 +118,13 @@ body.home-page {
     transform: translateY(-2px);
 }
 
+.login-hint {
+    margin: -8px 0 4px;
+    color: #c8d1df;
+    text-align: center;
+    font-size: 12px;
+}
+
 /* LICENSE BUTTON */
 
 .license-btn {

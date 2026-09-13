@@ -257,6 +257,13 @@ body.doctor-profile-page {
     background: #ffac45;
 }
 
+.book-btn.is-disabled,
+.book-btn.is-disabled:hover {
+    background: #42516a;
+    color: #c6cfdb;
+    cursor: not-allowed;
+}
+
 .about-section,
 .review-section {
     margin-top: 24px;
